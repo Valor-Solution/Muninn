@@ -3,7 +3,7 @@ name: Create and Push Git Bundle on Merge to Master
 on:
   push:
     branches:
-      -master
+      - master
 
 jobs:
   bundle-and-upload:
