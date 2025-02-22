@@ -14,9 +14,9 @@ jobs:
         # run: echo "::set-output name=ts::$(date -u +"%Y%m%dT%H%M%SZ")"
         run: echo "name=ts::$(date -u +"%Y%m%dT%H%M%SZ")" >>$GITHUB_OUTPUT
 
-      # - name: Clone Repository as Mirror
-      #   run: |
-      #   git clone --mirror https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} mirror-repo
+      - name: Clone Repository as Mirror
+        run: | 
+          git clone --mirror https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }} mirror-repo
 
       # - name: Create Git Bundle
       #   run: |
