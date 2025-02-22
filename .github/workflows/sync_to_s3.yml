@@ -1,0 +1,37 @@
+name: Create and Push Git Bundle on Merge to Master
+
+on:
+  push:
+    branches:
+      -master
+
+jobs:
+  bundle-and-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Timestamp
+        id: timestamp
+        run: echo "::set-output name=ts::$(date -u +"%Y%m%dT%H%M%SZ")"
+
+      # - name: Clone Repository as Mirror
+      #   run: |
+      #   git clone --mirror https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} mirror-repo
+
+      # - name: Create Git Bundle
+      #   run: |
+      #   repo_name=$(basename "$GITHUB_REPOSITORY")
+      #   TIMESTAMP=${{ steps.timestamp.outputs.ts }}
+      #   cd mirror-repo
+      #   git bundle create "../${repo_name}-${TIMESTAMP}.bundle" --all
+
+      # - name: Upload Bundle to S3
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     AWS_DEFAULT_REGION: us-east-2
+      #     S3_BUCKET: <BUCKETNAME>
+      #   run: |
+      #   repo_name=$(basename "$GITHUB_REPOSITORY")
+      #   TIMESTAMP=${{ steps.timestamp.outputs.ts }}
+      #   BUNDLE_NAME="${repo_name}-${TIMESTAMP}.bundle"
+      #   aws s3 cp "$BUNDLE_NAME" "s3://${S3_BUCKET}/${BUNDLE_NAME}"
