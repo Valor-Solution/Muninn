@@ -18,12 +18,12 @@ jobs:
         run: | 
           git clone --mirror https://x-access-token:${{ secrets.PAT }}@github.com/${{ github.repository }} mirror-repo
 
-      # - name: Create Git Bundle
-      #   run: |
-      #   repo_name=$(basename "$GITHUB_REPOSITORY")
-      #   TIMESTAMP=${{ steps.timestamp.outputs.ts }}
-      #   cd mirror-repo
-      #   git bundle create "../${repo_name}-${TIMESTAMP}.bundle" --all
+      - name: Create Git Bundle
+        run: |
+          repo_name=$(basename "$GITHUB_REPOSITORY")
+          TIMESTAMP=${{ steps.timestamp.outputs.ts }}
+          cd mirror-repo
+          git bundle create "../${repo_name}-${TIMESTAMP}.bundle" --all
 
       # - name: Upload Bundle to S3
       #   env:
