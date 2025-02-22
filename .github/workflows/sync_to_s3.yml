@@ -25,14 +25,14 @@ jobs:
           cd mirror-repo
           git bundle create "../${repo_name}-${TIMESTAMP}.bundle" --all
 
-      # - name: Upload Bundle to S3
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     AWS_DEFAULT_REGION: us-east-2
-      #     S3_BUCKET: <BUCKETNAME>
-      #   run: |
-      #   repo_name=$(basename "$GITHUB_REPOSITORY")
-      #   TIMESTAMP=${{ steps.timestamp.outputs.ts }}
-      #   BUNDLE_NAME="${repo_name}-${TIMESTAMP}.bundle"
-      #   aws s3 cp "$BUNDLE_NAME" "s3://${S3_BUCKET}/${BUNDLE_NAME}"
+      - name: Upload Bundle to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
+          S3_BUCKET: valorrepositorybackup
+        run: |
+          repo_name=$(basename "$GITHUB_REPOSITORY")
+          TIMESTAMP=${{ steps.timestamp.outputs.ts }}
+          BUNDLE_NAME="${repo_name}-${TIMESTAMP}.bundle"
+          aws s3 cp "$BUNDLE_NAME" "s3://${S3_BUCKET}/${BUNDLE_NAME}"
