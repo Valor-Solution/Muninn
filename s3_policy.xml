@@ -1,0 +1,13 @@
+<LifecycleConfiguration>
+  <Rule>
+    <ID>Transition and Expiration Rule</ID>
+    <Status>Enabled</Status>
+    <Transition>
+      <Days>30</Days>
+      <StorageClass>GLACIER</StorageClass>
+    </Transition>
+    <Expiration>
+      <Days>365</Days>
+    </Expiration>
+  </Rule>
+</LifecycleConfiguration>
