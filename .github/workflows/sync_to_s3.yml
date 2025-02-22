@@ -11,7 +11,8 @@ jobs:
     steps:
       - name: Set Timestamp
         id: timestamp
-        run: echo "::set-output name=ts::$(date -u +"%Y%m%dT%H%M%SZ")"
+        # run: echo "::set-output name=ts::$(date -u +"%Y%m%dT%H%M%SZ")"
+        run: echo "name=ts::$(date -u +"%Y%m%dT%H%M%SZ")" >>$GITHUB_OUTPUT
 
       # - name: Clone Repository as Mirror
       #   run: |
