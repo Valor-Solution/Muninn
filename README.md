@@ -2,7 +2,7 @@
 
 ## Overview
 
-This GitHub Action automatically creates a complete Git bundle of your repository each time changes are pushed to the main line of a given branch, then uploads this bundle to an AWS S3 bucket for backup and archival purposes.
+This repo provides the template github action to create a complete Git bundle of your repository each time changes are pushed to the main line of a given branch, then uploads this bundle to an AWS S3 bucket for backup and archival purposes.
 
 ## Workflow Trigger
 
@@ -50,7 +50,17 @@ AWS credentials are pre-configured at the GitHub Organization level and shared a
 
 ## Usage
 
-Simply push changes to the main line of your branch. The workflow will automatically run, create a backup Git bundle, and store it safely in AWS S3.
+1. Copy the workflow into your repo, and replace the trigger where it says master with your main-line branch like this:
+```
+on:
+  push:
+    branches:
+      - <main-line-branch>
+```
+
+And that is it!
+
+The workflow will automatically run when you merge to that branch, create a backup Git bundle, and store it safely in AWS S3.
 
 ---
 
