@@ -1,26 +1,58 @@
-# Muninn
-## Objective: 
-In the case of disaster, we need to have the repositories in github backed up somewhere else. 
+# GitHub Action: Git Bundle Backup to S3
 
-## Strategy: 
-Use GitHub actions to push any new changes to master up to an S3 bucket in a separate AWS account. 
+## Overview
 
-## Scope
-We are going to bundle and push all repositories in the valor organization that are not archived. Additionally there are two repos that appear to be basically empty so I will not include those either. 
+This GitHub Action automatically creates a complete Git bundle of your repository each time changes are pushed to the main line of a given branch, then uploads this bundle to an AWS S3 bucket for backup and archival purposes.
 
+## Workflow Trigger
 
-## Design
-The workflow should be simple:
-- Trigger: on merge to "main-line"
-- Bundle the repo
-- Push the bundle into S3 with a timestamp for versioning.
+- Triggered on every `push` event to the main line of the specified branch (e.g., `master`, `main`, or any other primary branch).
 
-# Execution
+## Workflow Steps
 
-I copied the workflow into each repo's `.github/workflows`, set the trigger appropriately according to the main-line in each repository, and opened up a PR. I use the term "main-line" because each repo appears to have a different convention, but this seems to be the branch to which PR's get merged and the production branch is cut. Once the PR is merged, I expect that the workflow will be active and successful.
+### 1. **Set Timestamp**
+Generates a timestamp used for naming the bundle file.
 
+### 2. **Clone Repository as Mirror**
+Clones the repository as a mirrored repository using a Personal Access Token (`PAT`) stored in GitHub Secrets.
 
+### 3. **Create Git Bundle**
+Creates a Git bundle file containing all repository references (branches, tags, etc.)
 
+**Bundle Filename Format:**
+```
+<repository-name>-<timestamp>.bundle
+```
 
+Example:
+```
+my-repo-20230405T121212Z.bundle
+```
 
+### 4. **Upload Bundle to S3**
+Uploads the created Git bundle to the specified AWS S3 bucket (`valorrepositorybackup`). AWS credentials are securely stored at the GitHub Organization level and shared with all repositories within the organization.
+
+## GitHub Secrets Configuration
+
+Ensure the following GitHub Secret is configured for the repository:
+
+- `PAT`: GitHub Personal Access Token with repository access.
+
+AWS credentials are pre-configured at the GitHub Organization level and shared across all repositories:
+
+- `ORG_AWS_ACCESS_KEY_ID`: AWS Access Key ID.
+- `ORG_AWS_SECRET_ACCESS_KEY`: AWS Secret Access Key.
+
+## AWS Configuration
+
+- **Region:** `us-east-1`
+- **S3 Bucket:** `valorrepositorybackup`
+
+## Usage
+
+Simply push changes to the main line of your branch. The workflow will automatically run, create a backup Git bundle, and store it safely in AWS S3.
+
+---
+
+*This automation ensures that a secure and accessible backup of your repository is maintained, facilitating easy recovery and archival.*
 
